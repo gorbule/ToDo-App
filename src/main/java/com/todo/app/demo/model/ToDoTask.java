@@ -1,0 +1,53 @@
+package com.todo.app.demo.model;
+
+import com.todo.app.demo.swagger.DescriptionVariables;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
+@ApiModel(description = "Model of ToDo Task")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Component
+public class ToDoTask {
+
+    @ApiModelProperty(
+            notes = "ToDo Task id. Number to identify object inside of collection. Range [1, MAX_LONG]",
+            required = true, example = "1")
+    @Min(value = 1, message = DescriptionVariables.MODEL_ID_MIN)
+    @Max(value = Long.MAX_VALUE, message = DescriptionVariables.MODEL_ID_MAX)
+    private Long id;
+
+    @ApiModelProperty(
+            notes = "ToDo Task description",
+            required = true)
+    @NonNull
+    @NotEmpty(message = "Status field can not be empty")
+    private String task;
+
+    @ApiModelProperty(
+            notes = "ToDo Task Status. Status can be TRUE (done) or FALSE (not completed)",
+            required = true)
+    @NonNull
+    private boolean status;
+
+    @ApiModelProperty(
+            notes = "ToDo Task Priority: " +
+            " 1 - Important Not Urgent" +
+            " 2 - Not Important Not Urgent" +
+            " 3 - Important and Urgent" +
+            " 4 - Not Important Urgent",
+            required = true)
+    @NonNull
+    private Long priority;
+
+}
