@@ -1,10 +1,6 @@
 package com.todo.app.demo.business.repository.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,13 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "todo_task")
+@Table(name = "todotask_table")
+@Data
 public class ToDoTaskDAO {
 
     @Id
@@ -27,12 +19,54 @@ public class ToDoTaskDAO {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "task_description")
-    private String task;
+    @Column(name = "taskDescription")
+    private String taskDescription;
 
     @Column(name = "status")
-    private boolean status;
+    private Long status;
 
-    @Column(name = "priority")
-    private Long priority;
+    @Column(name = "taskPriority")
+    private Long taskPriority;
+
+    public ToDoTaskDAO() {
+    }
+
+    public ToDoTaskDAO(Long id, String taskDescription, Long status, Long taskPriority) {
+        this.id = id;
+        this.taskDescription = taskDescription;
+        this.status = status;
+        this.taskPriority = taskPriority;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public Long getTaskPriority() {
+        return taskPriority;
+    }
+
+    public void setTaskPriority(Long taskPriority) {
+        this.taskPriority = taskPriority;
+    }
 }

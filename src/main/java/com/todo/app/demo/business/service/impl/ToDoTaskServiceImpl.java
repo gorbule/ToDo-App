@@ -22,12 +22,14 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     @Autowired
     ToDoTaskMapper toDoTaskMapper;
 
+
     @Override
     public Optional<ToDoTask> getToDoTaskById(Long id) {
         Optional<ToDoTask> toDoTaskById = repository.findById(id)
                 .flatMap(toDoTask -> Optional.ofNullable(toDoTaskMapper
                         .taskDaoToTaskModel(toDoTask)));
-//        log.info("Project Hiring Status with id {} is {}", id, toDoTaskById);
+//        log.info("ToDo Task with id {} is {}", id, toDoTaskById);
+        System.out.println(("ToDo Task with id " + id + " is: " + toDoTaskById));
         return toDoTaskById;
     }
 

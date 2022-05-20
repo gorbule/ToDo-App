@@ -7,17 +7,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 
 @ApiModel(description = "Model of ToDo Task")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class ToDoTask {
 
     @ApiModelProperty(
@@ -31,14 +28,14 @@ public class ToDoTask {
             notes = "ToDo Task description",
             required = true)
     @NonNull
-    @NotEmpty(message = "Status field can not be empty")
-    private String task;
+    private String taskDescription;
 
     @ApiModelProperty(
-            notes = "ToDo Task Status. Status can be TRUE (done) or FALSE (not completed)",
+            notes = "ToDo Task Status. Status can be: " +
+                    "1 (done) or 0 (not completed)",
             required = true)
     @NonNull
-    private boolean status;
+    private Long status;
 
     @ApiModelProperty(
             notes = "ToDo Task Priority: " +
@@ -48,6 +45,37 @@ public class ToDoTask {
             " 4 - Not Important Urgent",
             required = true)
     @NonNull
-    private Long priority;
+    private Long taskPriority;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public Long getTaskPriority() {
+        return taskPriority;
+    }
+
+    public void setTaskPriority(Long taskPriority) {
+        this.taskPriority = taskPriority;
+    }
 }
