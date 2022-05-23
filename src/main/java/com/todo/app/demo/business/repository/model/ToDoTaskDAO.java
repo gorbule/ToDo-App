@@ -19,13 +19,13 @@ public class ToDoTaskDAO {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "taskDescription")
+    @Column(name = "task_description")
     private String taskDescription;
 
     @Column(name = "status")
     private Long status;
 
-    @Column(name = "taskPriority")
+    @Column(name = "task_priority")
     private Long taskPriority;
 
     public ToDoTaskDAO() {
