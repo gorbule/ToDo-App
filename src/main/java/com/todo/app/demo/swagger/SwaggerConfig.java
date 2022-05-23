@@ -10,7 +10,6 @@ import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-//@EnableSwagger2
 @Configuration
 public class SwaggerConfig {
 

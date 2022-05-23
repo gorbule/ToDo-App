@@ -6,6 +6,8 @@ public class HTMLResponseMessages {
             "Example data can be seen below";
     public static final String HTTP_201 = "Successful request saves posted data and returns that data with this " +
             "response code. Example data can be seen below";
+    public static final String HTTP_204_WITH_DATA = "Successful request deletes requested data and returns that data " +
+            "with this response code. Example data can be seen below";
     public static final String HTTP_204_WITHOUT_DATA = "Successful request deletes requested data and returns this " +
             "response code";
     public static final String HTTP_400 = "Unsuccessful request responds with this code. Passed data has errors - " +

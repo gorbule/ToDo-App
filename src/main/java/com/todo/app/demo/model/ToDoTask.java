@@ -10,6 +10,7 @@ import lombok.NonNull;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @ApiModel(description = "Model of ToDo Task")
 @Data
@@ -35,6 +36,7 @@ public class ToDoTask {
                     "1 (done) or 0 (not completed)",
             required = true)
     @NonNull
+    @NotEmpty(message = "Description could not be empty. Fill in some information.")
     private Long status;
 
     @ApiModelProperty(

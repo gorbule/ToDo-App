@@ -12,4 +12,7 @@ public interface ToDoTaskService {
     List<ToDoTask> getAllToDoTasks();
 
     ToDoTask postToDoTask(ToDoTask newToDoTask);
+
+    void deleteToDoTask(Long id);
+
 }
