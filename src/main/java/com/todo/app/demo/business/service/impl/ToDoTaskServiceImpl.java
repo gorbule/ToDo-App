@@ -45,18 +45,25 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
 
     @Override
     public ToDoTask postToDoTask(ToDoTask newToDoTask) {
-        List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
-        for (ToDoTaskDAO task : toDoTaskDAOList) {
-            if (task.getTaskDescription().equals(newToDoTask.getTaskDescription())) {
-                log.error("ToDO Task conflict exception is thrown: {}", HttpStatus.CONFLICT);
-                throw new HttpClientErrorException(HttpStatus.CONFLICT);
-            }
+//        List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
+//        for (ToDoTaskDAO task : toDoTaskDAOList) {
+//            if (task.getTaskDescription().equals(newToDoTask.getTaskDescription())) {
+//                log.error("ToDO Task conflict exception is thrown: {}", HttpStatus.CONFLICT);
+//                throw new HttpClientErrorException(HttpStatus.CONFLICT);
+//            }
+//        }
+//        ToDoTaskDAO entity = toDoTaskMapper
+//                .taskModelTOTaskDAO(newToDoTask);
+//        ToDoTaskDAO savedToDoTask = repository.save(entity);
+//        log.info("New ToDO Task is saved: {}", () ->  savedToDoTask);
+//        return toDoTaskMapper.taskDaoToTaskModel(savedToDoTask);
+        if (repository.findAll().stream().anyMatch(p -> p.getTaskDescription().equals(newToDoTask.getTaskDescription()))) {
+            log.error("ToDo Task conflict exception is thrown: {}", HttpStatus.CONFLICT);
+            throw new HttpClientErrorException(HttpStatus.CONFLICT);
         }
-        ToDoTaskDAO entity = toDoTaskMapper
-                .taskModelTOTaskDAO(newToDoTask);
-        ToDoTaskDAO savedToDoTask = repository.save(entity);
-        log.info("New ToDO Task is saved: {}", () ->  savedToDoTask);
-        return toDoTaskMapper.taskDaoToTaskModel(savedToDoTask);
+        ToDoTaskDAO newToDoTaskDAO = repository.save(toDoTaskMapper.taskModelTOTaskDAO(newToDoTask));
+        log.info("New ToDoTask is saved: {}", newToDoTask);
+        return toDoTaskMapper.taskDaoToTaskModel(newToDoTaskDAO);
     }
 
     @Override
