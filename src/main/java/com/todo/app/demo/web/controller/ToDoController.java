@@ -13,11 +13,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -131,6 +133,36 @@ public class ToDoController {
         service.deleteToDoTask(id);
         log.debug("ToDo Task with id {} is deleted: {}", id, toDoTask);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value = "Updates the ToDo Task by id",
+            notes = "Updates the ToDo Task if id exists",
+            response = ToDoTask.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "The ToDo Task is successfully updated"),
+            @ApiResponse(code = 400, message = "Missed required parameters, parameters are not valid"),
+            @ApiResponse(code = 401, message = "The request requires user authentication"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
+            @ApiResponse(code = 500, message = "Server error")})
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<ToDoTask> updateToDoTask(@ApiParam(value = "id of the ToDo Task", required = true)
+                                                                     @PathVariable @NonNull Long id,
+                                                                     @Valid @RequestBody ToDoTask toDoTask,
+                                                                     BindingResult bindingResult) {
+        log.info("Update existing ToDo Task with id: {} and new body: {}",
+                id, toDoTask);
+        if (bindingResult.hasErrors()) {
+            log.warn("ToDo Task for update with id {} not found. Missed required parameters, parameters are not valid", id);
+            return ResponseEntity.badRequest().build();
+        } else if (!id.equals(toDoTask.getId())) {
+            log.warn("ToDo Task for update with id {} not found", id);
+            return ResponseEntity.notFound().build();
+        }
+        service.postToDoTask(toDoTask);
+        log.debug("ToDo Task with id {} is updated: {}", id, toDoTask);
+        return new ResponseEntity<>(toDoTask, HttpStatus.CREATED);
     }
 }
 
