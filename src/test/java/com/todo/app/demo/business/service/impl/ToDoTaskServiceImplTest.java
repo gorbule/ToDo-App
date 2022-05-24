@@ -6,18 +6,14 @@ import com.todo.app.demo.business.repository.model.ToDoTaskDAO;
 import com.todo.app.demo.model.Status;
 import com.todo.app.demo.model.TaskPriority;
 import com.todo.app.demo.model.ToDoTask;
-import org.aspectj.lang.annotation.Before;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
@@ -57,9 +53,9 @@ class ToDoTaskServiceImplTest {
 
     @BeforeEach
     public void init() {
-        toDoTask = createToDoTask(1L, "ToDo Task Test", "TO_DO", "LOW");
-        toDoTaskDAO = createToDoTaskDAO(1L, "ToDo Task Test", "TO_DO", "LOW");
-        toDoTaskDAO_2 = createToDoTaskDAO(2L, "ToDo Task Test", "TO_DO", "LOW");
+        toDoTask = createToDoTask(1L, "ToDo Task Test", Status.TO_DO, TaskPriority.LOW);
+        toDoTaskDAO = createToDoTaskDAO(1L, "ToDo Task Test", Status.TO_DO, TaskPriority.LOW);
+        toDoTaskDAO_2 = createToDoTaskDAO(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.LOW);
         toDoTaskList = createToDoTaskList(toDoTask);
         toDoTaskDAOList = createToDoTaskDAOList(toDoTaskDAO);
     }
@@ -130,21 +126,21 @@ class ToDoTaskServiceImplTest {
     }
 
 
-    public ToDoTask createToDoTask(Long id, String taskDescription, String status, String taskPriority) {
+    public ToDoTask createToDoTask(Long id, String taskDescription, Status status, TaskPriority taskPriority) {
         ToDoTask toDoTask = new ToDoTask();
         toDoTask.setId(id);
         toDoTask.setTaskDescription(taskDescription);
-        toDoTask.setStatus(Status.valueOf(status));
-        toDoTask.setTaskPriority(TaskPriority.valueOf(taskPriority));
+        toDoTask.setStatus(status);
+        toDoTask.setTaskPriority(taskPriority);
         return toDoTask;
     }
 
-    public ToDoTaskDAO createToDoTaskDAO(Long id, String taskDescription, String status, String taskPriority) {
+    public ToDoTaskDAO createToDoTaskDAO(Long id, String taskDescription, Status status, TaskPriority taskPriority) {
         ToDoTaskDAO toDoTaskDAO = new ToDoTaskDAO();
         toDoTaskDAO.setId(id);
         toDoTaskDAO.setTaskDescription(taskDescription);
-        toDoTaskDAO.setStatus(Status.valueOf(status));
-        toDoTaskDAO.setTaskPriority(TaskPriority.valueOf(taskPriority));
+        toDoTaskDAO.setStatus(status);
+        toDoTaskDAO.setTaskPriority(taskPriority);
         return toDoTaskDAO;
     }
 

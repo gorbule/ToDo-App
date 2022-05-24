@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,7 +76,7 @@ public class ToDoController {
     @GetMapping("/{id}")
     public ResponseEntity<ToDoTask> getToDoTaskById(
             @ApiParam(value = "Id of the ToDoTask", defaultValue = "1",
-                    allowableValues = MAX_LONG_RANGE, required = true) @PathVariable("id") Long id) {
+                    allowableValues = MAX_LONG_RANGE, required = true) @NotNull @PathVariable("id") Long id) {
         Optional<ToDoTask> toDoTaskById = service.getToDoTaskById(id);
         if (!toDoTaskById.isPresent()) {
             log.warn("ToDo Task with id {} is not found.", id);
