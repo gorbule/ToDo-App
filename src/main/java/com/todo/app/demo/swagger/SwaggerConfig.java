@@ -18,7 +18,7 @@ public class SwaggerConfig {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.todo.app.demo"))
-//                .paths(PathSelectors.ant("/.**"))
+//                .paths(PathSelectors.ant("/.**").negate())
                 .paths(PathSelectors.regex("/.*"))
                 .build()
                 .apiInfo(apiInfo());

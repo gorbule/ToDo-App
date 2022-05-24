@@ -1,6 +1,8 @@
 package com.todo.app.demo.business.repository.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "todotask_table")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ToDoTaskDAO {
 
     @Id
@@ -28,45 +32,7 @@ public class ToDoTaskDAO {
     @Column(name = "task_priority")
     private Long taskPriority;
 
-    public ToDoTaskDAO() {
-    }
-
-    public ToDoTaskDAO(Long id, String taskDescription, Long status, Long taskPriority) {
+    public ToDoTaskDAO(Long id) {
         this.id = id;
-        this.taskDescription = taskDescription;
-        this.status = status;
-        this.taskPriority = taskPriority;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTaskDescription() {
-        return taskDescription;
-    }
-
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
-    }
-
-    public Long getTaskPriority() {
-        return taskPriority;
-    }
-
-    public void setTaskPriority(Long taskPriority) {
-        this.taskPriority = taskPriority;
     }
 }

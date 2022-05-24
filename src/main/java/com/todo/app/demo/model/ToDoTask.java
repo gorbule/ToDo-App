@@ -10,7 +10,6 @@ import lombok.NonNull;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 
 @ApiModel(description = "Model of ToDo Task")
 @Data
@@ -36,7 +35,6 @@ public class ToDoTask {
                     "1 (done) or 0 (not completed)",
             required = true)
     @NonNull
-    @NotEmpty(message = "Description could not be empty. Fill in some information.")
     private Long status;
 
     @ApiModelProperty(
@@ -49,35 +47,4 @@ public class ToDoTask {
     @NonNull
     private Long taskPriority;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTaskDescription() {
-        return taskDescription;
-    }
-
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
-    }
-
-    public Long getTaskPriority() {
-        return taskPriority;
-    }
-
-    public void setTaskPriority(Long taskPriority) {
-        this.taskPriority = taskPriority;
-    }
 }
