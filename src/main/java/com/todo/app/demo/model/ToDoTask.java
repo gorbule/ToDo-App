@@ -32,19 +32,20 @@ public class ToDoTask {
 
     @ApiModelProperty(
             notes = "ToDo Task Status. Status can be: " +
-                    "1 (done) or 0 (not completed)",
+                    " 0 - TO_DO" +
+                    " 1 - IN_PROGRESS" +
+                    " 2 - DONE",
             required = true)
     @NonNull
-    private Long status;
+    private Status status;
 
     @ApiModelProperty(
             notes = "ToDo Task Priority: " +
-            " 1 - Important Not Urgent" +
-            " 2 - Not Important Not Urgent" +
-            " 3 - Important and Urgent" +
-            " 4 - Not Important Urgent",
+            " 0 - URGENT" +
+            " 1 - HIGH" +
+            " 2 - MEDIUM" +
+            " 3 - LOW",
             required = true)
     @NonNull
-    private Long taskPriority;
-
+    private TaskPriority taskPriority;
 }

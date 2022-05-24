@@ -1,2 +1,2 @@
-INSERT INTO todotask_table (id, task_description, status, task_priority) VALUES (1, 'Make a salad', 0, 4);
-INSERT INTO todotask_table (id, task_description, status, task_priority) VALUES (2, 'Compleate the 1st Lelev of IS Advocate Silver', 1, 1);
+INSERT INTO todotask_table (id, task_description, status, task_priority) VALUES (1, 'Make a salad', 'To_DO', 'LOW');
+INSERT INTO todotask_table (id, task_description, status, task_priority) VALUES (2, 'Complete the IS Advocate Silver LEVEL Tests', 2, 1);

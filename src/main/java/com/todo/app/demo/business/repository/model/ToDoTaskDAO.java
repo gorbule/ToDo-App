@@ -1,11 +1,15 @@
 package com.todo.app.demo.business.repository.model;
 
+import com.todo.app.demo.model.Status;
+import com.todo.app.demo.model.TaskPriority;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,10 +31,15 @@ public class ToDoTaskDAO {
     private String taskDescription;
 
     @Column(name = "status")
-    private Long status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    //    private Long status;
+
 
     @Column(name = "task_priority")
-    private Long taskPriority;
+    @Enumerated(EnumType.STRING)
+    private TaskPriority taskPriority;
+    //    private Long taskPriority;
 
     public ToDoTaskDAO(Long id) {
         this.id = id;
