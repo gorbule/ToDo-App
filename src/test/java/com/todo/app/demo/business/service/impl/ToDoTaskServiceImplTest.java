@@ -123,12 +123,11 @@ class ToDoTaskServiceImplTest {
         verify(repository, times(1)).deleteById(anyLong());
     }
 
-//    @Test
-//    void deleteToDoTask_Invalid() {
-//        service.deleteToDoTask(null);
-//        expectedException.expect(IllegalArgumentException.class);
-//        verify(repository, times(0)).deleteById(null);
-//    }
+    @Test
+    void deleteToDoTask_Invalid() {
+        service.deleteToDoTask(null);
+        expectedException.expect(IllegalArgumentException.class);
+    }
 
 
     public ToDoTask createToDoTask(Long id, String taskDescription, String status, String taskPriority) {

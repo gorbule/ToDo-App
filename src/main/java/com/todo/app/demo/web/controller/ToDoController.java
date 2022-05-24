@@ -121,8 +121,8 @@ public class ToDoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ToDoTask> deleteToDoTask(
             @ApiParam(value = DescriptionVariables.NON_NULL_MAX_LONG, defaultValue = "1",
-                    allowableValues = DescriptionVariables.MAX_LONG_RANGE, required = true) @PathVariable Long id
-    ){
+                    allowableValues = DescriptionVariables.MAX_LONG_RANGE, required = true) @NonNull @PathVariable Long id
+    ) {
         log.info("Delete ToDo Task by passing id, where id is:{}", id);
 
         Optional<ToDoTask> toDoTask = service.getToDoTaskById(id);
@@ -140,21 +140,20 @@ public class ToDoController {
             notes = "Updates the ToDo Task if id exists",
             response = ToDoTask.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "The ToDo Task is successfully updated"),
-            @ApiResponse(code = 400, message = "Missed required parameters, parameters are not valid"),
-            @ApiResponse(code = 401, message = "The request requires user authentication"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
-            @ApiResponse(code = 500, message = "Server error")})
+            @ApiResponse(code = 201, message = HTMLResponseMessages.HTTP_201),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)})
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<ToDoTask> updateToDoTask(@ApiParam(value = "id of the ToDo Task", required = true)
-                                                                     @PathVariable @NonNull Long id,
-                                                                     @Valid @RequestBody ToDoTask toDoTask,
-                                                                     BindingResult bindingResult) {
+                                                   @PathVariable @NonNull Long id,
+                                                   @Valid @RequestBody ToDoTask toDoTask,
+                                                   BindingResult bindingResult) {
         log.info("Update existing ToDo Task with id: {} and new body: {}",
                 id, toDoTask);
         if (bindingResult.hasErrors()) {
-            log.warn("ToDo Task for update with id {} not found. Missed required parameters, parameters are not valid", id);
+            log.warn("ToDo Task for update with id {} not found." +
+                    "Missed required parameters, parameters are not valid", id);
             return ResponseEntity.badRequest().build();
         } else if (!id.equals(toDoTask.getId())) {
             log.warn("ToDo Task for update with id {} not found", id);
