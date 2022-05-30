@@ -11,11 +11,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+//@SpringBootTest
+@ExtendWith(SpringExtension.class)
 @DisplayName("Test Case for ToDoTaskServiceImpl class methods")
 class ToDoTaskServiceImplTest {
 
@@ -105,12 +108,11 @@ class ToDoTaskServiceImplTest {
 
     @Test
     void postToDoTask_Invalid() {
-        when(repository.findAll()).thenThrow(new HttpClientErrorException(HttpStatus.CONFLICT));
-        try {
-            service.postToDoTask(toDoTask);
-        } catch (Exception e) {
-            assertEquals("409 CONFLICT", e.getMessage());
-        }
+        ToDoTask toDoTaskSaved = createToDoTask(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.MEDIUM);
+        when(repository.findAll()).thenReturn(toDoTaskDAOList);
+        assertThrows(HttpClientErrorException.class, () -> service.postToDoTask(toDoTaskSaved));
+
+        verify(repository, times(0)).save(toDoTaskDAO);
     }
 
     @Test

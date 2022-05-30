@@ -45,7 +45,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     public ToDoTask postToDoTask(ToDoTask newToDoTask) {
         if (repository.findAll().stream()
                 .anyMatch(p -> p.getTaskDescription().equals(newToDoTask.getTaskDescription()))) {
-            log.error("ToDo Task conflict exception is thrown: {}", HttpStatus.CONFLICT);
+            log.info("ToDo Task conflict exception is thrown: {}", HttpStatus.CONFLICT);
             throw new HttpClientErrorException(HttpStatus.CONFLICT);
         }
         ToDoTaskDAO newToDoTaskDAO = repository.save(toDoTaskMapper.taskModelTOTaskDAO(newToDoTask));
