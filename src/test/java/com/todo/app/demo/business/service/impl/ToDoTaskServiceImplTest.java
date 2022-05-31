@@ -159,6 +159,4 @@ class ToDoTaskServiceImplTest {
         toDoTaskDAOList.add(toDoTaskDAO);
         return toDoTaskDAOList;
     }
-
-
 }

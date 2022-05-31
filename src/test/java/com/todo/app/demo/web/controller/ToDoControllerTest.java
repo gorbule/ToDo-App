@@ -89,20 +89,22 @@ class ToDoControllerTest {
     }
 
     @Test
-    void getToDoTaskById_Invalid() throws Exception {
-        when(service.getToDoTaskById(null)).thenReturn(Optional.empty());
+    void getToDoTaskById_Invalid_NotFoundId() throws Exception {
+        List<ToDoTask> listWithEExistingTasks = createToDoTaskList();
+        when(service.getToDoTaskById(3L)).thenReturn(Optional.empty());
 
         ResultActions mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                        .get(baseUrl + "/" + null)
+                        .get(baseUrl + "/" + 3L)
+                        .content(asJsonString(Optional.empty()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isBadRequest());
+                        .andExpect(status().isNotFound());
 
-        verify(service, times(0)).getToDoTaskById(null);
+        verify(service, times(1)).getToDoTaskById(3L);
     }
 
     @Test
-    void postToDoTask() throws Exception {
+    void postToDoTask_Success() throws Exception {
         ToDoTask newToDoTask = toDoTask();
         ResultActions mvcResult = mockMvc.perform(post(baseUrl)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -127,7 +129,7 @@ class ToDoControllerTest {
     }
 
     @Test
-    void deleteToDoTaskByPassingInId() throws Exception {
+    void deleteToDoTaskByPassingInId_Success() throws Exception {
         when(service.getToDoTaskById(anyLong())).thenReturn(Optional.of(toDoTask()));
         ResultActions mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .delete(baseUrl + "/" + anyLong())
@@ -147,7 +149,7 @@ class ToDoControllerTest {
     }
 
     @Test
-    void updateToDoTask() throws Exception {
+    void updateToDoTask_Success() throws Exception {
         ToDoTask updatedToDoTask = toDoTask();
         when(service.getToDoTaskById(updatedToDoTask.getId())).thenReturn(Optional.of(updatedToDoTask));
 

@@ -78,13 +78,17 @@ public class ToDoController {
             @ApiParam(value = "Id of the ToDoTask", defaultValue = "1",
                     allowableValues = MAX_LONG_RANGE, required = true) @NotNull @PathVariable("id") Long id) {
         Optional<ToDoTask> toDoTaskById = service.getToDoTaskById(id);
-        if (!toDoTaskById.isPresent()) {
-            log.warn("ToDo Task with id {} is not found.", id);
-        } else {
+//        if (!toDoTaskById.isPresent()) {
+//            log.warn("ToDo Task with id {} is not found.", id);
+//            return ResponseEntity.notFound().build();
+//        }
+//        log.info("ToDo Task with id {} is found: {}", id, toDoTaskById);
+//        return ResponseEntity.ok(toDoTaskById.get());
+        if (toDoTaskById.isPresent()) {
             log.info("ToDo Task with id {} is found: {}", id, toDoTaskById);
-        }
-        log.info("ToDo Task with id {} is found: {}", id, toDoTaskById);
-        return toDoTaskById.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+            return ResponseEntity.ok(toDoTaskById.get());}
+        log.warn("ToDo Task with id {} is not found.", id);
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping()
@@ -152,12 +156,9 @@ public class ToDoController {
                                                    BindingResult bindingResult) {
         log.info("Update existing ToDo Task with id: {} and new body: {}",
                 id, toDoTask);
-        if (bindingResult.hasErrors()) {
-            log.warn("ToDo Task for update with id {} not found." +
-                    "Missed required parameters, parameters are not valid", id);
-            return ResponseEntity.badRequest().build();
-        } else if (!id.equals(toDoTask.getId())) {
-            log.warn("ToDo Task for update with id {} not found", id);
+        if (bindingResult.hasErrors() || !id.equals(toDoTask.getId())) {
+            log.warn("ToDo Task for update with id {} not found. " +
+                    "Check Input. Maybe missed required parameters or parameters are not valid.", id);
             return ResponseEntity.notFound().build();
         }
         service.postToDoTask(toDoTask);
