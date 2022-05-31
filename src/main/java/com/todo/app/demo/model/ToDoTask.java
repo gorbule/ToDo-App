@@ -6,10 +6,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @ApiModel(description = "Model of ToDo Task")
 @Data
@@ -27,25 +28,23 @@ public class ToDoTask {
     @ApiModelProperty(
             notes = "ToDo Task description",
             required = true)
-    @NonNull
+    @NotBlank
+    @NotNull(message = "Task description field cannot be null")
     private String taskDescription;
 
     @ApiModelProperty(
-            notes = "ToDo Task Status. Status can be: " +
-                    " 0 - TO_DO" +
-                    " 1 - IN_PROGRESS" +
-                    " 2 - DONE",
+            notes = "ToDo Task Status.",
+            dataType = "String",
+            allowableValues = "TO_DO, IN_PROGRESS, DONE",
             required = true)
-    @NonNull
+    @NotNull(message = "Task status field cannot be null")
     private Status status;
 
     @ApiModelProperty(
-            notes = "ToDo Task Priority: " +
-            " 0 - URGENT" +
-            " 1 - HIGH" +
-            " 2 - MEDIUM" +
-            " 3 - LOW",
+            notes = "ToDo Task Priority.",
+            dataType = "String",
+            allowableValues = "URGENT, HIGH, MEDIUM, LOW",
             required = true)
-    @NonNull
+    @NotNull(message = "Task priority field cannot be null")
     private TaskPriority taskPriority;
 }

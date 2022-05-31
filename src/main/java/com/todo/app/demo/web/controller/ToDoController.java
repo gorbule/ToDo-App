@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.todo.app.demo.swagger.DescriptionVariables.MAX_LONG_RANGE;
-import static com.todo.app.demo.swagger.DescriptionVariables.TODO_APP_MAIN;
+import static com.todo.app.demo.swagger.DescriptionVariables.TODO_APP_CONTROLLER;
 
-@Api(tags = {TODO_APP_MAIN})
+@Api(tags = {TODO_APP_CONTROLLER})
 @Log4j2
 @RestController
 @RequestMapping("/todoapp")
@@ -50,7 +50,8 @@ public class ToDoController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
-            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)})
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping("/")
     public ResponseEntity<List<ToDoTask>> getAllToDoTasks() {
@@ -75,18 +76,13 @@ public class ToDoController {
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping("/{id}")
     public ResponseEntity<ToDoTask> getToDoTaskById(
-            @ApiParam(value = "Id of the ToDoTask", defaultValue = "1",
+            @ApiParam(value = "ToDo Task id", defaultValue = "1",
                     allowableValues = MAX_LONG_RANGE, required = true) @NotNull @PathVariable("id") Long id) {
         Optional<ToDoTask> toDoTaskById = service.getToDoTaskById(id);
-//        if (!toDoTaskById.isPresent()) {
-//            log.warn("ToDo Task with id {} is not found.", id);
-//            return ResponseEntity.notFound().build();
-//        }
-//        log.info("ToDo Task with id {} is found: {}", id, toDoTaskById);
-//        return ResponseEntity.ok(toDoTaskById.get());
         if (toDoTaskById.isPresent()) {
             log.info("ToDo Task with id {} is found: {}", id, toDoTaskById);
-            return ResponseEntity.ok(toDoTaskById.get());}
+            return ResponseEntity.ok(toDoTaskById.get());
+        }
         log.warn("ToDo Task with id {} is not found.", id);
         return ResponseEntity.notFound().build();
     }
@@ -98,12 +94,12 @@ public class ToDoController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
-            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)})
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ToDoTask> postToDoTask(
             @Valid @RequestBody ToDoTask toDoTask, BindingResult bindingResult) {
         log.info("Save new Project Hiring Status with id: {}", toDoTask.getId());
-
         if (bindingResult.hasErrors() || toDoTask.getTaskDescription().isEmpty()) {
             log.error("The ToDo Task has error or required data is missing: {}", bindingResult);
             return ResponseEntity.badRequest().build();
@@ -126,8 +122,8 @@ public class ToDoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ToDoTask> deleteToDoTask(
             @ApiParam(value = DescriptionVariables.NON_NULL_MAX_LONG, defaultValue = "1",
-                    allowableValues = DescriptionVariables.MAX_LONG_RANGE, required = true) @NonNull @PathVariable Long id
-    ) {
+                    allowableValues = DescriptionVariables.MAX_LONG_RANGE, required = true)
+            @NonNull @PathVariable Long id) {
         log.info("Delete ToDo Task by passing id, where id is:{}", id);
 
         Optional<ToDoTask> toDoTask = service.getToDoTaskById(id);
@@ -148,14 +144,14 @@ public class ToDoController {
             @ApiResponse(code = 201, message = HTMLResponseMessages.HTTP_201),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
-            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)})
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<ToDoTask> updateToDoTask(@ApiParam(value = "id of the ToDo Task", required = true)
+    public ResponseEntity<ToDoTask> updateToDoTask(@ApiParam(value = "ToDo Task id", example = "1", required = true)
                                                    @PathVariable @NonNull Long id,
                                                    @Valid @RequestBody ToDoTask toDoTask,
                                                    BindingResult bindingResult) {
-        log.info("Update existing ToDo Task with id: {} and new body: {}",
-                id, toDoTask);
+        log.info("Update existing ToDo Task with id: {} and new body: {}", id, toDoTask);
         if (bindingResult.hasErrors() || !id.equals(toDoTask.getId())) {
             log.warn("ToDo Task for update with id {} not found. " +
                     "Check Input. Maybe missed required parameters or parameters are not valid.", id);

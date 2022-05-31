@@ -18,7 +18,6 @@ public class SwaggerConfig {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.todo.app.demo"))
-//                .paths(PathSelectors.ant("/.**").negate())
                 .paths(PathSelectors.regex("/.*"))
                 .build()
                 .apiInfo(apiInfo());
@@ -28,8 +27,8 @@ public class SwaggerConfig {
 
     private Docket appendTags(Docket docket) {
         return docket.tags(
-                new Tag(DescriptionVariables.TODO_APP_MAIN,
-                        "Used to operate with data - ToDo Task from the H2 Data Base"));
+                new Tag(DescriptionVariables.TODO_APP_CONTROLLER,
+                        "Used to operate with data - ToDo Tasks from the H2 Data Base"));
     }
 
     private ApiInfo apiInfo() {
@@ -39,5 +38,4 @@ public class SwaggerConfig {
                 .version("1.0")
                 .build();
     }
-
 }

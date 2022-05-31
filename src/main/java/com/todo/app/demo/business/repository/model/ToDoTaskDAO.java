@@ -4,7 +4,9 @@ import com.todo.app.demo.model.Status;
 import com.todo.app.demo.model.TaskPriority;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +22,8 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ToDoTaskDAO {
 
     @Id
@@ -33,13 +37,10 @@ public class ToDoTaskDAO {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
-    //    private Long status;
-
 
     @Column(name = "task_priority")
     @Enumerated(EnumType.STRING)
     private TaskPriority taskPriority;
-    //    private Long taskPriority;
 
     public ToDoTaskDAO(Long id) {
         this.id = id;

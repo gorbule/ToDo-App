@@ -107,7 +107,7 @@ class ToDoTaskServiceImplTest {
     }
 
     @Test
-    void postToDoTask_Invalid() {
+    void postToDoTask_Invalid_Duplicate() {
         ToDoTask toDoTaskSaved = createToDoTask(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.MEDIUM);
         when(repository.findAll()).thenReturn(toDoTaskDAOList);
         assertThrows(HttpClientErrorException.class, () -> service.postToDoTask(toDoTaskSaved));
