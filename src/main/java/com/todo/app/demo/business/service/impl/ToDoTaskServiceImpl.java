@@ -7,6 +7,8 @@ import com.todo.app.demo.business.service.ToDoTaskService;
 import com.todo.app.demo.model.ToDoTask;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -34,6 +36,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskById;
     }
 
+    @Cacheable(value = "toDoTaskList")
     @Override
     public List<ToDoTask> getAllToDoTasks() {
         List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
@@ -41,6 +44,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
     }
 
+    @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public ToDoTask postToDoTask(ToDoTask newToDoTask) {
         if (repository.findAll().stream()
@@ -53,6 +57,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskMapper.taskDaoToTaskModel(newToDoTaskDAO);
     }
 
+    @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public void deleteToDoTask(Long id) {
         repository.deleteById(id);
