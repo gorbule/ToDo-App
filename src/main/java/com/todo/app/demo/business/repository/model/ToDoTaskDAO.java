@@ -20,8 +20,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "todotask_table")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class ToDoTaskDAO {
@@ -41,6 +41,12 @@ public class ToDoTaskDAO {
     @Column(name = "task_priority")
     @Enumerated(EnumType.STRING)
     private TaskPriority taskPriority;
+
+//    @Column(name = "finish_date")
+//    private String finishDate;
+
+    @Column(name = "special_message")
+    private String specialMessage;
 
     public ToDoTaskDAO(Long id) {
         this.id = id;

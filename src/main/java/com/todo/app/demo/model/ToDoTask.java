@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Max;
@@ -15,8 +17,10 @@ import java.io.Serializable;
 
 @ApiModel(description = "Model of ToDo Task")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Component
 public class ToDoTask implements Serializable {
 
@@ -51,4 +55,11 @@ public class ToDoTask implements Serializable {
             required = true)
     @NonNull
     private TaskPriority taskPriority;
+
+//    @ApiModelProperty(notes = "ToDo task finish date")
+//    @JsonSerialize(using = ToStringSerializer.class)
+//    private String finishDate;
+
+    @ApiModelProperty(notes = "Special message for user")
+    private String specialMessage;
 }

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.log4j.Log4j2;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +43,16 @@ public class ToDoController {
 
     @Autowired
     ToDoTaskServiceImpl service;
+
+    @Autowired
+    private KieSession kieSession;
+
+//    @PostMapping("/toDoTask")
+//    public ToDoTask toDoTaskDrool(@RequestBody ToDoTask toDoTask) {
+//        kieSession.insert(toDoTask);
+//        kieSession.fireAllRules();
+//        return toDoTask;
+//    }
 
     @ApiOperation(
             value = "Finds all ToDo Tasks",
@@ -104,6 +116,8 @@ public class ToDoController {
             log.error("The ToDo Task has error or required data is missing: {}", bindingResult);
             return ResponseEntity.badRequest().build();
         }
+        kieSession.insert(toDoTask);
+        kieSession.fireAllRules();
         ToDoTask toDoTaskSaved = service.postToDoTask(toDoTask);
         log.info("New ToDo Task is created: {}", toDoTaskSaved);
         return new ResponseEntity<>(toDoTaskSaved, HttpStatus.CREATED);
