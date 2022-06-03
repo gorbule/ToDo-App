@@ -4,9 +4,7 @@ import com.todo.app.demo.model.Status;
 import com.todo.app.demo.model.TaskPriority;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,8 +20,6 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class ToDoTaskDAO {
 
     @Id
@@ -41,9 +37,6 @@ public class ToDoTaskDAO {
     @Column(name = "task_priority")
     @Enumerated(EnumType.STRING)
     private TaskPriority taskPriority;
-
-//    @Column(name = "finish_date")
-//    private String finishDate;
 
     @Column(name = "special_message")
     private String specialMessage;

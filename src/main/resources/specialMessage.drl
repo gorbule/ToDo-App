@@ -1,18 +1,20 @@
 package KieRule;
+
 import com.todo.app.demo.model.ToDoTask;
+import com.todo.app.demo.model.Status;
 
 rule "DONE"
 
 when
-toDoTaskObject : ToDoTask(status=="DONE");
+toDoTaskObject : ToDoTask(status==Status.DONE );
 then
 toDoTaskObject.setSpecialMessage("Well Done! Congratulations!");
 end;
 
-rule "TO_DO"
+rule "URGENT"
 
 when
-toDoTaskObject : ToDoTask(status=="TO_DO" && taskPriority=="URGENT");
+toDoTaskObject : ToDoTask(status==Status.TO_DO &&  taskPriority==TaskPriority.URGENT);
 then
 toDoTaskObject.setSpecialMessage("Harry up with this task!");
 end;
