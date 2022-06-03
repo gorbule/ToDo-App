@@ -112,7 +112,7 @@ class ToDoControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(status().isCreated());
 
-        verify(service, times(1)).postToDoTask(newToDoTask);
+        verify(service, times(1)).saveToDoTask(newToDoTask);
     }
 
     @Test
@@ -125,7 +125,7 @@ class ToDoControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(status().isBadRequest());
 
-        verify(service, times(0)).postToDoTask(newToDoTask);
+        verify(service, times(0)).saveToDoTask(newToDoTask);
     }
 
     @Test
@@ -162,7 +162,7 @@ class ToDoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.taskDescription").value("ToDo Task Test"))
                 .andExpect(status().isCreated());
 
-        verify(service, times(1)).postToDoTask(updatedToDoTask);
+        verify(service, times(1)).saveToDoTask(updatedToDoTask);
     }
 
     @Test
@@ -180,7 +180,7 @@ class ToDoControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(status().isNotFound());
 
-        verify(service, times(0)).postToDoTask(updatedToDoTask);
+        verify(service, times(0)).saveToDoTask(updatedToDoTask);
     }
 
     public ToDoTask toDoTask() {

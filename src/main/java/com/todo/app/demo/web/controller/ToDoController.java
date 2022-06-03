@@ -104,7 +104,7 @@ public class ToDoController {
             log.error("The ToDo Task has error or required data is missing: {}", bindingResult);
             return ResponseEntity.badRequest().build();
         }
-        ToDoTask toDoTaskSaved = service.postToDoTask(toDoTask);
+        ToDoTask toDoTaskSaved = service.saveToDoTask(toDoTask);
         log.info("New ToDo Task is created: {}", toDoTaskSaved);
         return new ResponseEntity<>(toDoTaskSaved, HttpStatus.CREATED);
     }
@@ -157,7 +157,7 @@ public class ToDoController {
                     "Check Input. Maybe missed required parameters or parameters are not valid.", id);
             return ResponseEntity.notFound().build();
         }
-        service.postToDoTask(toDoTask);
+        service.saveToDoTask(toDoTask);
         log.debug("ToDo Task with id {} is updated: {}", id, toDoTask);
         return new ResponseEntity<>(toDoTask, HttpStatus.CREATED);
     }

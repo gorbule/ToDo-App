@@ -15,8 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -100,7 +98,7 @@ class ToDoTaskServiceImplTest {
         when(repository.save(toDoTaskDAO)).thenReturn(toDoTaskDAO);
         when(mapper.taskDaoToTaskModel(toDoTaskDAO)).thenReturn(toDoTask);
         when(mapper.taskModelTOTaskDAO(toDoTask)).thenReturn(toDoTaskDAO);
-        ToDoTask toDoTaskSaved = service.postToDoTask(toDoTask);
+        ToDoTask toDoTaskSaved = service.saveToDoTask(toDoTask);
         assertEquals("ToDo Task Test", toDoTaskSaved.getTaskDescription());
 
         verify(repository, times(1)).save(toDoTaskDAO);
@@ -110,7 +108,7 @@ class ToDoTaskServiceImplTest {
     void postToDoTask_Invalid_Duplicate() {
         ToDoTask toDoTaskSaved = createToDoTask(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.MEDIUM);
         when(repository.findAll()).thenReturn(toDoTaskDAOList);
-        assertThrows(HttpClientErrorException.class, () -> service.postToDoTask(toDoTaskSaved));
+        assertThrows(HttpClientErrorException.class, () -> service.saveToDoTask(toDoTaskSaved));
 
         verify(repository, times(0)).save(toDoTaskDAO);
     }
