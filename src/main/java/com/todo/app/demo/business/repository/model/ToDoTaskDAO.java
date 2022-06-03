@@ -21,9 +21,6 @@ import javax.persistence.Table;
 @Table(name = "todotask_table")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class ToDoTaskDAO {
 
     @Id
@@ -41,8 +38,4 @@ public class ToDoTaskDAO {
     @Column(name = "task_priority")
     @Enumerated(EnumType.STRING)
     private TaskPriority taskPriority;
-
-    public ToDoTaskDAO(Long id) {
-        this.id = id;
-    }
 }

@@ -16,7 +16,6 @@ import java.io.Serializable;
 @ApiModel(description = "Model of ToDo Task")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Component
 public class ToDoTask implements Serializable {
 

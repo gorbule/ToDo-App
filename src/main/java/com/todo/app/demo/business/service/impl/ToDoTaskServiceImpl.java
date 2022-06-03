@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * ToDoTaskServiceImpl class. Holds all the business logic.
+ */
 @Log4j2
 @Service
 public class ToDoTaskServiceImpl implements ToDoTaskService {
@@ -28,6 +31,11 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     @Autowired
     ToDoTaskMapper toDoTaskMapper;
 
+    /**
+     * Method getToDoTaskById that retrieves ToDo task from the data base if valid id is provided.
+     * @param id
+     * @return
+     */
     @Override
     public Optional<ToDoTask> getToDoTaskById(Long id) {
         Optional<ToDoTask> toDoTaskById = repository.findById(id)
@@ -37,6 +45,10 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskById;
     }
 
+    /**
+     * Method getAllToDoTasks that retrieves all ToDo tasks from the data base.
+     * @return
+     */
     @Cacheable(value = "toDoTaskList")
     @Scheduled(fixedDelay = 300000)
     @Override
@@ -46,6 +58,12 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
     }
 
+    /**
+     * Method saveToDoTask that save ToDo Task in the data base if required data is provided.
+     * Task description should not match to already existing.
+     * @param newToDoTask
+     * @return
+     */
     @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public ToDoTask saveToDoTask(ToDoTask newToDoTask) {
@@ -59,6 +77,10 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskMapper.taskDaoToTaskModel(newToDoTaskDAO);
     }
 
+    /**
+     * Method deleteToDoTask  that delete ToDo Task from the data base if valid ToDo Task id is provided.
+     * @param id
+     */
     @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public void deleteToDoTask(Long id) {

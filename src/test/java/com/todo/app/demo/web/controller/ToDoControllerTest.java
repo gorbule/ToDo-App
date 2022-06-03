@@ -53,7 +53,10 @@ class ToDoControllerTest {
                         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                         .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
                         .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].taskDescription").value("ToDo Task Test 1"))
                         .andExpect(MockMvcResultMatchers.jsonPath("$[1].taskDescription").value("ToDo Task Test 2"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].status").value("IN_PROGRESS"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].taskPriority").value("HIGH"))
                         .andExpect(status().isOk());
 
         verify(service, times(1)).getAllToDoTasks();
@@ -83,6 +86,8 @@ class ToDoControllerTest {
                         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                         .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
                         .andExpect(MockMvcResultMatchers.jsonPath("$.taskDescription").value("ToDo Task Test"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("TO_DO"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.taskPriority").value("MEDIUM"))
                         .andExpect(status().isOk());
 
         verify(service, times(1)).getToDoTaskById(anyLong());
@@ -158,9 +163,11 @@ class ToDoControllerTest {
                         .content(asJsonString(updatedToDoTask))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.taskDescription").value("ToDo Task Test"))
-                .andExpect(status().isCreated());
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.taskDescription").value("ToDo Task Test"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("TO_DO"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.taskPriority").value("MEDIUM"))
+                        .andExpect(status().isCreated());
 
         verify(service, times(1)).saveToDoTask(updatedToDoTask);
     }
