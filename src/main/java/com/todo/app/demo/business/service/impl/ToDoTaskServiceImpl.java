@@ -80,6 +80,19 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     }
 
     /**
+     * Method updateToDoTask that save updated ToDo Task in the data base if required data is provided.
+     * @param updatedToDoTask
+     * @return
+     */
+    @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
+    @Override
+    public ToDoTask updateToDoTask(ToDoTask updatedToDoTask) {
+        ToDoTaskDAO updatedToDoTaskDAO = repository.save(toDoTaskMapper.taskModelTOTaskDAO(updatedToDoTask));
+        log.info("ToDoTask with id {} is updated: {}", updatedToDoTask.getId(), updatedToDoTask);
+        return toDoTaskMapper.taskDaoToTaskModel(updatedToDoTaskDAO);
+    }
+
+    /**
      * Method deleteToDoTask  that delete ToDo Task from the data base if valid ToDo Task id is provided.
      * @param id
      */

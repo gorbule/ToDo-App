@@ -157,4 +157,23 @@ class ToDoTaskServiceImplTest {
         toDoTaskDAOList.add(toDoTaskDAO);
         return toDoTaskDAOList;
     }
+
+    @Test
+    void updateToDoTask() {
+        when(repository.save(toDoTaskDAO)).thenReturn(toDoTaskDAO);
+        when(mapper.taskDaoToTaskModel(toDoTaskDAO)).thenReturn(toDoTask);
+        when(mapper.taskModelTOTaskDAO(toDoTask)).thenReturn(toDoTaskDAO);
+        ToDoTask toDoTaskUpdated = service.updateToDoTask(toDoTask);
+        assertEquals("ToDo Task Test", toDoTaskUpdated.getTaskDescription());
+
+        verify(repository, times(1)).save(toDoTaskDAO);
+    }
+
+    @Test
+    void updateToDoTask_Invalid() {
+        when(repository.save(toDoTaskDAO)).thenThrow(new IllegalArgumentException());
+        when(mapper.taskModelTOTaskDAO(toDoTask)).thenReturn(toDoTaskDAO);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.updateToDoTask(toDoTask));
+        verify(repository, times(1)).save(toDoTaskDAO);
+    }
 }

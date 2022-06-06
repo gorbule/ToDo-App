@@ -169,7 +169,7 @@ class ToDoControllerTest {
                         .andExpect(MockMvcResultMatchers.jsonPath("$.taskPriority").value("MEDIUM"))
                         .andExpect(status().isCreated());
 
-        verify(service, times(1)).saveToDoTask(updatedToDoTask);
+        verify(service, times(1)).updateToDoTask(updatedToDoTask);
     }
 
     @Test
@@ -187,7 +187,7 @@ class ToDoControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(status().isNotFound());
 
-        verify(service, times(0)).saveToDoTask(updatedToDoTask);
+        verify(service, times(0)).updateToDoTask(updatedToDoTask);
     }
 
     public ToDoTask toDoTask() {

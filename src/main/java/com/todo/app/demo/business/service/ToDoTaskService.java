@@ -14,6 +14,8 @@ public interface ToDoTaskService {
 
     ToDoTask saveToDoTask(ToDoTask newToDoTask);
 
+    ToDoTask updateToDoTask(ToDoTask updatedToDoTask);
+
     void deleteToDoTask(Long id);
 
 }
