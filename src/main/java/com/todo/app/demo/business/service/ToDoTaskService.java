@@ -13,6 +13,8 @@ public interface ToDoTaskService {
 
     ToDoTask postToDoTask(ToDoTask newToDoTask);
 
+    ToDoTask updateToDoTask(ToDoTask updatedToDoTask);
+
     void deleteToDoTask(Long id);
 
 }

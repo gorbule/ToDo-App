@@ -173,7 +173,7 @@ public class ToDoController {
         }
         kieSession.insert(toDoTask);
         kieSession.fireAllRules();
-        service.postToDoTask(toDoTask);
+        service.updateToDoTask(toDoTask);
         log.debug("ToDo Task with id {} is updated: {}", id, toDoTask);
         return new ResponseEntity<>(toDoTask, HttpStatus.CREATED);
     }

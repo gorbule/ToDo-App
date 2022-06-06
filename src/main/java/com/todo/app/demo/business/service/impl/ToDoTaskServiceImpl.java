@@ -57,6 +57,13 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskMapper.taskDaoToTaskModel(newToDoTaskDAO);
     }
 
+    @Override
+    public ToDoTask updateToDoTask(ToDoTask updatedToDoTask) {
+        ToDoTaskDAO updatedToDoTaskDAO = repository.save(toDoTaskMapper.taskModelTOTaskDAO(updatedToDoTask));
+        log.info("New ToDoTask is saved: {}", updatedToDoTask);
+        return toDoTaskMapper.taskDaoToTaskModel(updatedToDoTaskDAO);
+    }
+
     @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public void deleteToDoTask(Long id) {
