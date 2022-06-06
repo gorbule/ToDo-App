@@ -5,6 +5,9 @@ import org.ehcache.event.CacheEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * CacheEventLogger class creates log when the cache is created or refreshed with new set of data.
+ */
 public class CacheEventLogger implements CacheEventListener<Object, Object> {
 
     private final Logger LOG = LoggerFactory.getLogger(CacheEventLogger.class);

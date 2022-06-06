@@ -3,7 +3,6 @@ package com.todo.app.demo.model;
 import com.todo.app.demo.swagger.DescriptionVariables;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -13,6 +12,11 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
+/**
+ * ToDoTask model class. Represent toDoTask object.
+ * Consist of: id, taskDescription, status and taskPriority fields.
+ * Status and TaskPriority are enums.
+ */
 @ApiModel(description = "Model of ToDo Task")
 @Data
 @NoArgsConstructor
@@ -43,10 +47,10 @@ public class ToDoTask implements Serializable {
 
     @ApiModelProperty(
             notes = "ToDo Task Priority: " +
-            " 0 - URGENT" +
-            " 1 - HIGH" +
-            " 2 - MEDIUM" +
-            " 3 - LOW",
+                    " 0 - URGENT" +
+                    " 1 - HIGH" +
+                    " 2 - MEDIUM" +
+                    " 3 - LOW",
             required = true)
     @NonNull
     private TaskPriority taskPriority;

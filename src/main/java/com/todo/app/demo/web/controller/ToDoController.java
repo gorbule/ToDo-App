@@ -33,6 +33,19 @@ import java.util.Optional;
 import static com.todo.app.demo.swagger.DescriptionVariables.MAX_LONG_RANGE;
 import static com.todo.app.demo.swagger.DescriptionVariables.TODO_APP_CONTROLLER;
 
+/**
+ * ToDoController class is responsible for processing incoming REST API requests, preparing a model,
+ * and returning the view to be rendered as a response.
+ *
+ * Base URL: "/todoapp".
+ *
+ * In ToDoController class are declared 5 endpoints:
+ * GetMapping() - to get all ToDoTasks as a list;
+ * GetMapping("/{id}") - to get ToDoTask by id (if provided id is valid);
+ * PostMapping() - to save new ToDoTask in database (if provided task description is valid);
+ * DeleteMapping("/{id}") - to delete ToDoTask from the database (if provided id is valid);
+ * PutMapping("/{id}") - to update already existing ToDoTask in database (if provided id exists).
+ */
 @Api(tags = {TODO_APP_CONTROLLER})
 @Log4j2
 @RestController
@@ -111,7 +124,7 @@ public class ToDoController {
 
 
     @ApiOperation(
-            value = "Deletes the project role with its employee list",
+            value = "Deletes ToDoTask from the DB if provided id is valid",
             response = ToDoTask.class)
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = HTMLResponseMessages.HTTP_204_WITH_DATA),

@@ -19,7 +19,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * ToDoTaskServiceImpl class. Holds all the business logic.
+ * ToDoTaskServiceImpl class. Holds all the methods for application business logic.
+ * Methods necessary to operate with data.
+ * Available 4 basic methods: getToDoTaskById(), getAllToDoTasks(),  saveToDoTask(), deleteToDoTask.
  */
 @Log4j2
 @Service

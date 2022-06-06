@@ -17,6 +17,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * ToDoTaskDAO entity class. Represents ToDoTaskDAO object in data base.
+ * Table name in data base "todotask_table".
+ * Consist of id (column "id"), taskDescription (column "task_description"),
+ * status (column "status"), taskPriority (column "task_priority").
+ */
 @Entity
 @Table(name = "todotask_table")
 @Data
