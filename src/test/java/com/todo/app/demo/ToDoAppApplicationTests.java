@@ -7,7 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ToDoAppApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void main_Success() {
+		ToDoAppApplication.main(new String[] {});
+
 	}
 
 }

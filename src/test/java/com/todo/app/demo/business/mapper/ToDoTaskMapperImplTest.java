@@ -10,13 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ToDoTaskMapperImpl.class)
@@ -25,12 +20,6 @@ class ToDoTaskMapperImplTest {
     @Autowired
     private ToDoTaskMapper mapper;
 
-    @Test
-    void taskModelTOTaskDAO_Invalid() {
-//        when(mapper.taskModelTOTaskDAO(null)).thenReturn(null);
-//        assertEquals(mapper.taskModelTOTaskDAO(null), null);
-//        verify(mapper, times(0)).taskModelTOTaskDAO(null);
-    }
     @Test
     void taskModelTOTaskDAO_Success() {
         ToDoTask toDoTask = new ToDoTask();
@@ -48,6 +37,13 @@ class ToDoTaskMapperImplTest {
     }
 
     @Test
+    void taskModelTOTaskDAO_Invalid() {
+        ToDoTask toDoTask = null;
+        ToDoTaskDAO toDoTaskDAO = mapper.taskModelTOTaskDAO(null);
+        assertNull(null);
+    }
+
+    @Test
     void taskDaoToTaskModel_Success() {
         ToDoTaskDAO toDoTaskDAO = new ToDoTaskDAO();
         toDoTaskDAO.setId(1L);
@@ -61,5 +57,12 @@ class ToDoTaskMapperImplTest {
         assertThat(toDoTask.getTaskDescription()).isEqualTo("ToDo Task Test");
         assertThat(toDoTask.getStatus()).isEqualTo(Status.TO_DO);
         assertThat(toDoTask.getTaskPriority()).isEqualTo(TaskPriority.LOW);
+    }
+
+    @Test
+    void taskDaoToTaskModel_Invalid() {
+        ToDoTaskDAO toDoTaskDAO = null;
+        ToDoTask toDoTask = mapper.taskDaoToTaskModel(null);
+        assertNull(null);
     }
 }
