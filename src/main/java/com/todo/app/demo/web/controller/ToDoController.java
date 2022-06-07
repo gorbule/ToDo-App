@@ -87,8 +87,6 @@ public class ToDoController {
             log.info("ToDo Task with id {} is found: {}", id, toDoTaskById);
             return ResponseEntity.ok(toDoTaskById.get());
         }
-        kieSession.insert(toDoTaskById);
-        kieSession.fireAllRules();
         log.warn("ToDo Task with id {} is not found.", id);
         return ResponseEntity.notFound().build();
     }

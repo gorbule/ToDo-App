@@ -8,13 +8,46 @@ rule "DONE"
 when
 toDoTaskObject : ToDoTask(status==Status.DONE );
 then
-toDoTaskObject.setSpecialMessage("Well Done! Congratulations!");
+toDoTaskObject.setSpecialMessage("Well Done!");
 end;
 
-rule "URGENT"
+rule "URGENT_ToDo"
 
 when
 toDoTaskObject : ToDoTask(status==Status.TO_DO &&  taskPriority==TaskPriority.URGENT);
 then
-toDoTaskObject.setSpecialMessage("Harry up with this task!");
+toDoTaskObject.setSpecialMessage("Harry up! It is URGENT!");
 end;
+
+rule "HIGH_ToDo"
+
+when
+toDoTaskObject : ToDoTask(status==Status.TO_DO &&  taskPriority==TaskPriority.HIGH);
+then
+toDoTaskObject.setSpecialMessage("Harry up! HIGH priority task!");
+end;
+
+rule "MEDIUM_ToDo"
+
+when
+toDoTaskObject : ToDoTask(status==Status.TO_DO &&  taskPriority==TaskPriority.MEDIUM);
+then
+toDoTaskObject.setSpecialMessage("Don't forget about this task!");
+end;
+
+rule "LOW_ToDo"
+
+when
+toDoTaskObject : ToDoTask(status==Status.TO_DO &&  taskPriority==TaskPriority.LOW);
+then
+toDoTaskObject.setSpecialMessage("No worries about this! Concentrate on more urgent tasks!");
+end;
+
+rule "IN_PROGRESS"
+
+when
+toDoTaskObject : ToDoTask(status==Status.IN_PROGRESS);
+then
+toDoTaskObject.setSpecialMessage("You already started this task! Don't forget to complete!");
+end;
+
