@@ -46,7 +46,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
 
     @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
-    public ToDoTask postToDoTask(ToDoTask newToDoTask) {
+    public ToDoTask saveToDoTask(ToDoTask newToDoTask) {
         if (repository.findAll().stream()
                 .anyMatch(p -> p.getTaskDescription().equals(newToDoTask.getTaskDescription()))) {
             log.info("ToDo Task conflict exception is thrown: {}", HttpStatus.CONFLICT);

@@ -18,7 +18,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "todotask_table")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ToDoTaskDAO {
 
@@ -40,8 +39,4 @@ public class ToDoTaskDAO {
 
     @Column(name = "special_message")
     private String specialMessage;
-
-    public ToDoTaskDAO(Long id) {
-        this.id = id;
-    }
 }

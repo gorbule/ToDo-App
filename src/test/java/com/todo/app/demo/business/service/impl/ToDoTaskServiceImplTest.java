@@ -15,8 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -31,7 +29,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-//@SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DisplayName("Test Case for ToDoTaskServiceImpl class methods")
 class ToDoTaskServiceImplTest {
@@ -96,27 +93,27 @@ class ToDoTaskServiceImplTest {
     }
 
     @Test
-    void postToDoTask_Success() {
+    void saveToDoTask_Success() {
         when(repository.save(toDoTaskDAO)).thenReturn(toDoTaskDAO);
         when(mapper.taskDaoToTaskModel(toDoTaskDAO)).thenReturn(toDoTask);
         when(mapper.taskModelTOTaskDAO(toDoTask)).thenReturn(toDoTaskDAO);
-        ToDoTask toDoTaskSaved = service.postToDoTask(toDoTask);
+        ToDoTask toDoTaskSaved = service.saveToDoTask(toDoTask);
         assertEquals("ToDo Task Test", toDoTaskSaved.getTaskDescription());
 
         verify(repository, times(1)).save(toDoTaskDAO);
     }
 
     @Test
-    void postToDoTask_Invalid_Duplicate() {
+    void saveToDoTask_Invalid_Duplicate() {
         ToDoTask toDoTaskSaved = createToDoTask(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.MEDIUM);
         when(repository.findAll()).thenReturn(toDoTaskDAOList);
-        assertThrows(HttpClientErrorException.class, () -> service.postToDoTask(toDoTaskSaved));
+        assertThrows(HttpClientErrorException.class, () -> service.saveToDoTask(toDoTaskSaved));
 
         verify(repository, times(0)).save(toDoTaskDAO);
     }
 
     @Test
-    void updateToDoTask() {
+    void updateToDoTask_Success() {
         when(repository.save(toDoTaskDAO)).thenReturn(toDoTaskDAO);
         when(mapper.taskDaoToTaskModel(toDoTaskDAO)).thenReturn(toDoTask);
         when(mapper.taskModelTOTaskDAO(toDoTask)).thenReturn(toDoTaskDAO);
@@ -133,7 +130,6 @@ class ToDoTaskServiceImplTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.updateToDoTask(toDoTask));
         verify(repository, times(1)).save(toDoTaskDAO);
     }
-
 
 
     @Test
@@ -180,5 +176,4 @@ class ToDoTaskServiceImplTest {
         toDoTaskDAOList.add(toDoTaskDAO);
         return toDoTaskDAOList;
     }
-
 }

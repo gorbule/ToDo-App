@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,7 +108,7 @@ public class ToDoController {
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ToDoTask> postToDoTask(
+    public ResponseEntity<ToDoTask> saveToDoTask(
             @Valid @RequestBody ToDoTask toDoTask, BindingResult bindingResult) {
         log.info("Save new Project Hiring Status with id: {}", toDoTask.getId());
         if (bindingResult.hasErrors() || toDoTask.getTaskDescription().isEmpty()) {
@@ -118,7 +117,7 @@ public class ToDoController {
         }
         kieSession.insert(toDoTask);
         kieSession.fireAllRules();
-        ToDoTask toDoTaskSaved = service.postToDoTask(toDoTask);
+        ToDoTask toDoTaskSaved = service.saveToDoTask(toDoTask);
         log.info("New ToDo Task is created: {}", toDoTaskSaved);
         return new ResponseEntity<>(toDoTaskSaved, HttpStatus.CREATED);
     }

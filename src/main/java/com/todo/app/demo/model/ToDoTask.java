@@ -13,9 +13,13 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
+/**
+ * ToDoTask model class. Represent toDoTask object.
+ * Consist of: id, taskDescription, status and taskPriority fields.
+ * Status and TaskPriority are enums.
+ */
 @ApiModel(description = "Model of ToDo Task")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Component
 public class ToDoTask implements Serializable {
@@ -44,10 +48,10 @@ public class ToDoTask implements Serializable {
 
     @ApiModelProperty(
             notes = "ToDo Task Priority: " +
-            " 0 - URGENT" +
-            " 1 - HIGH" +
-            " 2 - MEDIUM" +
-            " 3 - LOW",
+                    " 0 - URGENT" +
+                    " 1 - HIGH" +
+                    " 2 - MEDIUM" +
+                    " 3 - LOW",
             required = true)
     @NonNull
     private TaskPriority taskPriority;
