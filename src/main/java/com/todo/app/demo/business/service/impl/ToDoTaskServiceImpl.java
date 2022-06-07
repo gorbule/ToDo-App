@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -17,6 +18,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * ToDoTaskServiceImpl class. Holds all the methods for application business logic.
+ * Methods necessary to operate with data.
+ * Available 4 basic methods: getToDoTaskById(), getAllToDoTasks(),  saveToDoTask(), deleteToDoTask.
+ */
 @Log4j2
 @Service
 public class ToDoTaskServiceImpl implements ToDoTaskService {
@@ -27,6 +33,11 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     @Autowired
     ToDoTaskMapper toDoTaskMapper;
 
+    /**
+     * Method getToDoTaskById that retrieves ToDo task from the data base if valid id is provided.
+     * @param id
+     * @return
+     */
     @Override
     public Optional<ToDoTask> getToDoTaskById(Long id) {
         Optional<ToDoTask> toDoTaskById = repository.findById(id)
@@ -36,7 +47,12 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskById;
     }
 
+    /**
+     * Method getAllToDoTasks that retrieves all ToDo tasks from the data base.
+     * @return
+     */
     @Cacheable(value = "toDoTaskList")
+    @Scheduled(fixedDelay = 300000)
     @Override
     public List<ToDoTask> getAllToDoTasks() {
         List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
@@ -44,6 +60,12 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
     }
 
+    /**
+     * Method saveToDoTask that save ToDo Task in the data base if required data is provided.
+     * Task description should not match to already existing.
+     * @param newToDoTask
+     * @return
+     */
     @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public ToDoTask saveToDoTask(ToDoTask newToDoTask) {
@@ -57,6 +79,12 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskMapper.taskDaoToTaskModel(newToDoTaskDAO);
     }
 
+    /**
+     * Method updateToDoTask that save updated ToDo Task in the data base if required data is provided.
+     * @param updatedToDoTask
+     * @return
+     */
+    @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public ToDoTask updateToDoTask(ToDoTask updatedToDoTask) {
         ToDoTaskDAO updatedToDoTaskDAO = repository.save(toDoTaskMapper.taskModelTOTaskDAO(updatedToDoTask));
@@ -64,6 +92,10 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskMapper.taskDaoToTaskModel(updatedToDoTaskDAO);
     }
 
+    /**
+     * Method deleteToDoTask  that delete ToDo Task from the data base if valid ToDo Task id is provided.
+     * @param id
+     */
     @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
     @Override
     public void deleteToDoTask(Long id) {

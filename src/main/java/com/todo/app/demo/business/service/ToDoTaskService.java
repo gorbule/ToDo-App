@@ -16,8 +16,6 @@ public interface ToDoTaskService {
 
     ToDoTask updateToDoTask(ToDoTask updatedToDoTask);
 
-    ToDoTask updateToDoTask(ToDoTask updatedToDoTask);
-
     void deleteToDoTask(Long id);
 
 }

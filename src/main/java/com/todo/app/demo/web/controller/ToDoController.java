@@ -46,13 +46,6 @@ public class ToDoController {
     @Autowired
     private KieSession kieSession;
 
-//    @PostMapping("/toDoTask")
-//    public ToDoTask toDoTaskDrool(@RequestBody ToDoTask toDoTask) {
-//        kieSession.insert(toDoTask);
-//        kieSession.fireAllRules();
-//        return toDoTask;
-//    }
-
     @ApiOperation(
             value = "Finds all ToDo Tasks",
             notes = "Returns the entire list of ToDo Tasks",
@@ -94,6 +87,8 @@ public class ToDoController {
             log.info("ToDo Task with id {} is found: {}", id, toDoTaskById);
             return ResponseEntity.ok(toDoTaskById.get());
         }
+        kieSession.insert(toDoTaskById);
+        kieSession.fireAllRules();
         log.warn("ToDo Task with id {} is not found.", id);
         return ResponseEntity.notFound().build();
     }
@@ -121,7 +116,6 @@ public class ToDoController {
         log.info("New ToDo Task is created: {}", toDoTaskSaved);
         return new ResponseEntity<>(toDoTaskSaved, HttpStatus.CREATED);
     }
-
 
     @ApiOperation(
             value = "Deletes the project role with its employee list",
@@ -171,6 +165,8 @@ public class ToDoController {
             return ResponseEntity.notFound().build();
         }
         service.updateToDoTask(toDoTask);
+        kieSession.insert(toDoTask);
+        kieSession.fireAllRules();
         log.debug("ToDo Task with id {} is updated: {}", id, toDoTask);
         return new ResponseEntity<>(toDoTask, HttpStatus.CREATED);
     }
