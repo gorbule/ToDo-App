@@ -6,6 +6,7 @@ import com.todo.app.demo.model.Status;
 import com.todo.app.demo.model.TaskPriority;
 import com.todo.app.demo.model.ToDoTask;
 import org.junit.jupiter.api.Test;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,6 +39,9 @@ class ToDoControllerTest {
 
     @MockBean
     private ToDoTaskServiceImpl service;
+
+    @MockBean
+    KieSession kieSession;
 
     @Autowired
     private ToDoController controller;

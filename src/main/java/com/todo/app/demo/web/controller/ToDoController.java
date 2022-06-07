@@ -171,8 +171,6 @@ public class ToDoController {
                     "Check Input. Maybe missed required parameters or parameters are not valid.", id);
             return ResponseEntity.notFound().build();
         }
-        kieSession.insert(toDoTask);
-        kieSession.fireAllRules();
         service.updateToDoTask(toDoTask);
         log.debug("ToDo Task with id {} is updated: {}", id, toDoTask);
         return new ResponseEntity<>(toDoTask, HttpStatus.CREATED);
