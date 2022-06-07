@@ -5,13 +5,16 @@ import com.todo.app.demo.model.ToDoTask;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface ToDoTaskService {
 
     Optional<ToDoTask> getToDoTaskById(Long id);
 
     List<ToDoTask> getAllToDoTasks();
 
-    ToDoTask postToDoTask(ToDoTask newToDoTask);
+    ToDoTask saveToDoTask(ToDoTask newToDoTask);
+
+    ToDoTask updateToDoTask(ToDoTask updatedToDoTask);
 
     ToDoTask updateToDoTask(ToDoTask updatedToDoTask);
 

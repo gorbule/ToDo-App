@@ -1,5 +1,8 @@
 package com.todo.app.demo.swagger;
 
+/**
+ * HTMLResponseMessages class holds static final variables with info about HTTP statuses which is used by Swagger.
+ */
 public class HTMLResponseMessages {
 
     public static final String HTTP_200 = "Successful request gets this response code and returns requested data. " +

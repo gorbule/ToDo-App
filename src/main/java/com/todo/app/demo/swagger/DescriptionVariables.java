@@ -1,5 +1,8 @@
 package com.todo.app.demo.swagger;
 
+/**
+ * DescriptionVariables class holds static final variables which is used by Swagger.
+ */
 public class DescriptionVariables {
 
     // Key strings for Swagger tags
