@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -36,16 +37,17 @@ class ToDoTaskServiceImplTest {
     @InjectMocks
     private ToDoTaskServiceImpl service;
 
-    @Mock
+    @Spy
     private ToDoRepository repository;
 
-    @Mock
+    @Spy
     private ToDoTaskMapper mapper;
 
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();
 
     private ToDoTask toDoTask;
+    private ToDoTask toDoTask_2;
     private ToDoTaskDAO toDoTaskDAO;
     private ToDoTaskDAO toDoTaskDAO_2;
     private List<ToDoTask> toDoTaskList;
@@ -53,9 +55,10 @@ class ToDoTaskServiceImplTest {
 
     @BeforeEach
     public void init() {
-        toDoTask = createToDoTask(1L, "ToDo Task Test", Status.TO_DO, TaskPriority.LOW);
-        toDoTaskDAO = createToDoTaskDAO(1L, "ToDo Task Test", Status.TO_DO, TaskPriority.LOW);
-        toDoTaskDAO_2 = createToDoTaskDAO(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.LOW);
+        toDoTask = createToDoTask(1L, "ToDo Task Test", Status.TO_DO, TaskPriority.URGENT, "Harry up! It is URGENT!");
+        toDoTask_2 = createToDoTask(1L, "ToDo Task Test", Status.TO_DO, TaskPriority.URGENT, "Harry up! It is URGENT!");
+        toDoTaskDAO = createToDoTaskDAO(1L, "ToDo Task Test", Status.TO_DO, TaskPriority.URGENT, "Harry up! It is URGENT!");
+        toDoTaskDAO_2 = createToDoTaskDAO(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.URGENT, "Harry up! It is URGENT!");
         toDoTaskList = createToDoTaskList(toDoTask);
         toDoTaskDAOList = createToDoTaskDAOList(toDoTaskDAO);
     }
@@ -104,10 +107,9 @@ class ToDoTaskServiceImplTest {
     }
 
     @Test
-    void saveToDoTask_Invalid_Duplicate() {
-        ToDoTask toDoTaskSaved = createToDoTask(2L, "ToDo Task Test", Status.TO_DO, TaskPriority.MEDIUM);
+    void saveToDoTask_Invalid_DuplicateTaskDescription() {
         when(repository.findAll()).thenReturn(toDoTaskDAOList);
-        assertThrows(HttpClientErrorException.class, () -> service.saveToDoTask(toDoTaskSaved));
+        assertThrows(HttpClientErrorException.class, () -> service.saveToDoTask(toDoTask_2));
 
         verify(repository, times(0)).save(toDoTaskDAO);
     }
@@ -139,27 +141,53 @@ class ToDoTaskServiceImplTest {
     }
 
     @Test
-    void deleteToDoTask_Invalid() {
+    void deleteToDoTask_Invalid_IdIsNull() {
         service.deleteToDoTask(null);
         expectedException.expect(IllegalArgumentException.class);
     }
 
+    @Test
+    void deleteToDoTaskByPassingInId_Invalid_NumberFormatException() throws Exception {
+        assertThrows(NumberFormatException.class,
+                ()->{
+                    when(service.getToDoTaskById(Long.valueOf("xyz"))).thenReturn(Optional.empty());
+                });
+    }
 
-    public ToDoTask createToDoTask(Long id, String taskDescription, Status status, TaskPriority taskPriority) {
+    @Test
+    void deleteToDoTaskByPassingInId_Invalid_NumberFormatException2() throws Exception {
+        assertThrows(NumberFormatException.class,
+                ()->{
+                    when(service.getToDoTaskById(Long.valueOf("!*@"))).thenReturn(Optional.empty());
+                });
+    }
+
+    @Test
+    void deleteToDoTaskByPassingInId_Invalid_NumberFormatException3() throws Exception {
+        assertThrows(NumberFormatException.class,
+                ()->{
+                    when(service.getToDoTaskById(Long.valueOf(""))).thenReturn(Optional.empty());
+                });
+    }
+
+
+    public ToDoTask createToDoTask(Long id, String taskDescription, Status status, TaskPriority taskPriority, String specialMessage) {
         ToDoTask toDoTask = new ToDoTask();
         toDoTask.setId(id);
         toDoTask.setTaskDescription(taskDescription);
         toDoTask.setStatus(status);
         toDoTask.setTaskPriority(taskPriority);
+        toDoTask.setSpecialMessage(specialMessage);
         return toDoTask;
     }
 
-    public ToDoTaskDAO createToDoTaskDAO(Long id, String taskDescription, Status status, TaskPriority taskPriority) {
+    public ToDoTaskDAO createToDoTaskDAO(Long id, String taskDescription, Status status, TaskPriority taskPriority, String specialMessage) {
         ToDoTaskDAO toDoTaskDAO = new ToDoTaskDAO();
         toDoTaskDAO.setId(id);
         toDoTaskDAO.setTaskDescription(taskDescription);
         toDoTaskDAO.setStatus(status);
         toDoTaskDAO.setTaskPriority(taskPriority);
+        toDoTaskDAO.setSpecialMessage(specialMessage);
         return toDoTaskDAO;
     }
 

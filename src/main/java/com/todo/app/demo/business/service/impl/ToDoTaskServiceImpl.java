@@ -5,6 +5,7 @@ import com.todo.app.demo.business.repository.ToDoRepository;
 import com.todo.app.demo.business.repository.model.ToDoTaskDAO;
 import com.todo.app.demo.business.service.ToDoTaskService;
 import com.todo.app.demo.model.ToDoTask;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -25,13 +26,12 @@ import java.util.stream.Collectors;
  */
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class ToDoTaskServiceImpl implements ToDoTaskService {
 
-    @Autowired
-    ToDoRepository repository;
+    private final ToDoRepository repository;
 
-    @Autowired
-    ToDoTaskMapper toDoTaskMapper;
+    private final ToDoTaskMapper toDoTaskMapper;
 
     /**
      * Method getToDoTaskById that retrieves ToDo task from the data base if valid id is provided.

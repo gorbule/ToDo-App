@@ -14,7 +14,8 @@ public class CacheEventLogger implements CacheEventListener<Object, Object> {
 
     @Override
     public void onEvent(CacheEvent<? extends Object, ? extends Object> cacheEvent) {
-        LOG.info("Cache event CREATED for ToD Tasks List. CacheEvent Type = {}, Old value = {}, New value = {}",
+        LOG.info("Cache event CREATED for ToD Tasks List. CacheEvent Type = {}, " +
+                        "Old value = {}, New value = {}",
                 cacheEvent.getType(), cacheEvent.getOldValue(), cacheEvent.getNewValue());
     }
 }

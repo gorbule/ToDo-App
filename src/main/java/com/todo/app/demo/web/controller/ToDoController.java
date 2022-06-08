@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,14 @@ import static com.todo.app.demo.swagger.DescriptionVariables.TODO_APP_CONTROLLER
 
 @Api(tags = {TODO_APP_CONTROLLER})
 @Log4j2
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/todoapp")
 public class ToDoController {
 
-    @Autowired
-    ToDoTaskServiceImpl service;
+    private final ToDoTaskServiceImpl service;
 
-    @Autowired
-    private KieSession kieSession;
+    private final KieSession kieSession;
 
     @ApiOperation(
             value = "Finds all ToDo Tasks",
