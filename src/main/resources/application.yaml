@@ -1,0 +1,33 @@
+server:
+  port: '9093'
+  error:
+    include-message: always
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+  datasource:
+    url: 'jdbc:h2:mem:todotaskapp;'
+    driverClassName: org.h2.Driver
+    username: sa
+    schema: 'classpath:db/schema.sql'
+    data: 'classpath:db/data.sql'
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cache:
+    jcache:
+      config: 'classpath:ehcache.xml'
