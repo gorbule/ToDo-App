@@ -54,10 +54,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
      */
     @Override
     public List<ToDoTask> getToDoTasksByStatus(Status status) {
-        List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
-        List <ToDoTask> toDoTaskList = toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
-
-        List<ToDoTask> listWithTasksByStatus = toDoTaskList
+        List <ToDoTask> listWithTasksByStatus = getAllToDoTasks()
                 .stream()
                 .filter(t -> t.getStatus().equals(status))
                 .collect(Collectors.toList());
@@ -70,10 +67,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
      */
     @Override
     public List<ToDoTask> getToDoTasksByPriority(TaskPriority taskPriority) {
-        List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
-        List <ToDoTask> toDoTaskList = toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
-
-        List<ToDoTask> listWithTasksByPriority = toDoTaskList
+        List<ToDoTask> listWithTasksByPriority = getAllToDoTasks()
                 .stream()
                 .filter(t -> t.getTaskPriority().equals(taskPriority))
                 .collect(Collectors.toList());
