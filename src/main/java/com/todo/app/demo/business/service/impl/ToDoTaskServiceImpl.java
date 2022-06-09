@@ -4,10 +4,10 @@ import com.todo.app.demo.business.mapper.ToDoTaskMapper;
 import com.todo.app.demo.business.repository.ToDoRepository;
 import com.todo.app.demo.business.repository.model.ToDoTaskDAO;
 import com.todo.app.demo.business.service.ToDoTaskService;
+import com.todo.app.demo.model.Status;
 import com.todo.app.demo.model.ToDoTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -47,6 +47,18 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskById;
     }
 
+    @Override
+    public List<ToDoTask> getToDoTasksByStatus(Status status) {
+        List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
+        List <ToDoTask> toDoTaskList = toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
+
+        List<ToDoTask> listWithTasksByStatus = toDoTaskList
+                .stream()
+                .filter(t ->t.getStatus().equals(status))
+                .collect(Collectors.toList());
+        return listWithTasksByStatus;
+    }
+
     /**
      * Method getAllToDoTasks that retrieves all ToDo tasks from the data base.
      * @return
@@ -56,7 +68,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     @Override
     public List<ToDoTask> getAllToDoTasks() {
         List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
-        log.info("Get list of Project Hiring Statuses. Size is: {}", toDoTaskDAOList::size);
+        log.info("Get list of ToDo Tasks. List size is: {}", toDoTaskDAOList::size);
         return toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
     }
 

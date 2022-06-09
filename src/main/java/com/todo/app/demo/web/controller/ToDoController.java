@@ -1,6 +1,7 @@
 package com.todo.app.demo.web.controller;
 
 import com.todo.app.demo.business.service.impl.ToDoTaskServiceImpl;
+import com.todo.app.demo.model.Status;
 import com.todo.app.demo.model.ToDoTask;
 import com.todo.app.demo.swagger.DescriptionVariables;
 import com.todo.app.demo.swagger.HTMLResponseMessages;
@@ -12,7 +13,6 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kie.api.runtime.KieSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -89,6 +89,29 @@ public class ToDoController {
         }
         log.warn("ToDo Task with id {} is not found.", id);
         return ResponseEntity.notFound().build();
+    }
+
+    @ApiOperation(
+            value = "Finds the ToDo Task by the id",
+            notes = "Provide an id to search specific ToDo Task in database",
+            response = ToDoTask.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/{status}")
+    public ResponseEntity<List<ToDoTask>> getToDoTasksByStatus(
+            @ApiParam(value = "ToDo Task status", required = true)
+            @PathVariable("status") Status status) {
+        List<ToDoTask> toDoTasksListByStatus = service.getToDoTasksByStatus(status);
+        if (toDoTasksListByStatus.isEmpty()) {
+            log.info("ToDo Tasks with status {} not found. List is empty", status);
+            return ResponseEntity.notFound().build();
+        }
+        log.info("ToDo Tasks with status {} is found. Size = {}", status, toDoTasksListByStatus.size());
+        return ResponseEntity.ok().body(toDoTasksListByStatus);
     }
 
     @PostMapping()
