@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,6 +48,10 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         return toDoTaskById;
     }
 
+    /**
+     * Method getToDoTasksByStatus that retrieves all ToDo tasks from the data base with required status.
+     * @return
+     */
     @Override
     public List<ToDoTask> getToDoTasksByStatus(Status status) {
         List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
@@ -54,8 +59,9 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
 
         List<ToDoTask> listWithTasksByStatus = toDoTaskList
                 .stream()
-                .filter(t ->t.getStatus().equals(status))
+                .filter(t -> t.getStatus().equals(status))
                 .collect(Collectors.toList());
+        log.info("ToDo Tasks with status {} : {}. List size: {}.", status, listWithTasksByStatus, listWithTasksByStatus.size());
         return listWithTasksByStatus;
     }
 

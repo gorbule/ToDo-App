@@ -101,7 +101,7 @@ public class ToDoController {
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
     })
     @ResponseStatus(value = HttpStatus.OK)
-    @GetMapping("/{status}")
+    @GetMapping("/filteredList/{status}")
     public ResponseEntity<List<ToDoTask>> getToDoTasksByStatus(
             @ApiParam(value = "ToDo Task status", required = true)
             @PathVariable("status") Status status) {
