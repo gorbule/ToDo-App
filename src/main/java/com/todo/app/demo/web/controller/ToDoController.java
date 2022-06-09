@@ -2,6 +2,7 @@ package com.todo.app.demo.web.controller;
 
 import com.todo.app.demo.business.service.impl.ToDoTaskServiceImpl;
 import com.todo.app.demo.model.Status;
+import com.todo.app.demo.model.TaskPriority;
 import com.todo.app.demo.model.ToDoTask;
 import com.todo.app.demo.swagger.DescriptionVariables;
 import com.todo.app.demo.swagger.HTMLResponseMessages;
@@ -92,8 +93,8 @@ public class ToDoController {
     }
 
     @ApiOperation(
-            value = "Finds the ToDo Task by the id",
-            notes = "Provide an id to search specific ToDo Task in database",
+            value = "Finds the ToDo Task by specified status",
+            notes = "Provide a task status to search specific ToDo Task in database",
             response = ToDoTask.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
@@ -101,7 +102,7 @@ public class ToDoController {
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
     })
     @ResponseStatus(value = HttpStatus.OK)
-    @GetMapping("/filteredList/{status}")
+    @GetMapping("/filteredList/v1/{status}")
     public ResponseEntity<List<ToDoTask>> getToDoTasksByStatus(
             @ApiParam(value = "ToDo Task status", required = true)
             @PathVariable("status") Status status) {
@@ -112,6 +113,29 @@ public class ToDoController {
         }
         log.info("ToDo Tasks with status {} is found. Size = {}", status, toDoTasksListByStatus.size());
         return ResponseEntity.ok().body(toDoTasksListByStatus);
+    }
+
+    @ApiOperation(
+            value = "Finds the ToDo Task by specified status",
+            notes = "Provide a task status to search specific ToDo Task in database",
+            response = ToDoTask.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/filteredList/v2/{taskPriority}")
+    public ResponseEntity<List<ToDoTask>> getToDoTasksByPriority(
+            @ApiParam(value = "ToDo Task status", required = true)
+            @PathVariable("taskPriority") TaskPriority taskPriority) {
+        List<ToDoTask> toDoTasksListByPriority = service.getToDoTasksByPriority(taskPriority);
+        if (toDoTasksListByPriority.isEmpty()) {
+            log.info("ToDo Tasks with priority level {} not found. List is empty", taskPriority);
+            return ResponseEntity.notFound().build();
+        }
+        log.info("ToDo Tasks with status {} is found. Size = {}", taskPriority, toDoTasksListByPriority.size());
+        return ResponseEntity.ok().body(toDoTasksListByPriority);
     }
 
     @PostMapping()

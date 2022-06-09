@@ -1,6 +1,7 @@
 package com.todo.app.demo.business.service;
 
 import com.todo.app.demo.model.Status;
+import com.todo.app.demo.model.TaskPriority;
 import com.todo.app.demo.model.ToDoTask;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface ToDoTaskService {
     Optional<ToDoTask> getToDoTaskById(Long id);
 
     List<ToDoTask> getToDoTasksByStatus(Status status);
+
+    List<ToDoTask> getToDoTasksByPriority(TaskPriority taskPriority);
 
     List<ToDoTask> getAllToDoTasks();
 

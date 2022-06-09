@@ -5,6 +5,7 @@ import com.todo.app.demo.business.repository.ToDoRepository;
 import com.todo.app.demo.business.repository.model.ToDoTaskDAO;
 import com.todo.app.demo.business.service.ToDoTaskService;
 import com.todo.app.demo.model.Status;
+import com.todo.app.demo.model.TaskPriority;
 import com.todo.app.demo.model.ToDoTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,7 +16,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * ToDoTaskServiceImpl class. Holds all the methods for application business logic.
  * Methods necessary to operate with data.
- * Available 4 basic methods: getToDoTaskById(), getAllToDoTasks(),  saveToDoTask(), deleteToDoTask.
+ * Available 6 methods: getToDoTaskById(), getToDoTasksByStatus(), getToDoTasksByPriority(), getAllToDoTasks(),  saveToDoTask(), deleteToDoTask.
  */
 @Log4j2
 @Service
@@ -35,7 +35,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     private final ToDoTaskMapper toDoTaskMapper;
 
     /**
-     * Method getToDoTaskById that retrieves ToDo task from the data base if valid id is provided.
+     * Method getToDoTaskById that retrieves task from the database if valid id is provided.
      * @param id
      * @return
      */
@@ -49,7 +49,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     }
 
     /**
-     * Method getToDoTasksByStatus that retrieves all ToDo tasks from the data base with required status.
+     * Method getToDoTasksByStatus that retrieves all tasks from the database by specified status.
      * @return
      */
     @Override
@@ -64,9 +64,25 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
         log.info("ToDo Tasks with status {} : {}. List size: {}.", status, listWithTasksByStatus, listWithTasksByStatus.size());
         return listWithTasksByStatus;
     }
+    /**
+     * Method getToDoTasksByStatus that retrieves all tasks from the database by specified status.
+     * @return
+     */
+    @Override
+    public List<ToDoTask> getToDoTasksByPriority(TaskPriority taskPriority) {
+        List<ToDoTaskDAO> toDoTaskDAOList = repository.findAll();
+        List <ToDoTask> toDoTaskList = toDoTaskDAOList.stream().map(toDoTaskMapper::taskDaoToTaskModel).collect(Collectors.toList());
+
+        List<ToDoTask> listWithTasksByPriority = toDoTaskList
+                .stream()
+                .filter(t -> t.getTaskPriority().equals(taskPriority))
+                .collect(Collectors.toList());
+        log.info("ToDo Tasks with priority level {} : {}. List size: {}.", taskPriority, listWithTasksByPriority, listWithTasksByPriority.size());
+        return listWithTasksByPriority;
+    }
 
     /**
-     * Method getAllToDoTasks that retrieves all ToDo tasks from the data base.
+     * Method getAllToDoTasks that retrieves all tasks from the database.
      * @return
      */
     @Cacheable(value = "toDoTaskList")
@@ -79,7 +95,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     }
 
     /**
-     * Method saveToDoTask that save ToDo Task in the data base if required data is provided.
+     * Method saveToDoTask saves new created Task in the database if required data is provided.
      * Task description should not match to already existing.
      * @param newToDoTask
      * @return
@@ -98,7 +114,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     }
 
     /**
-     * Method updateToDoTask that save updated ToDo Task in the data base if required data is provided.
+     * Method updateToDoTask that save updated Task in the database if required data is provided.
      * @param updatedToDoTask
      * @return
      */
@@ -111,7 +127,7 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
     }
 
     /**
-     * Method deleteToDoTask  that delete ToDo Task from the data base if valid ToDo Task id is provided.
+     * Method deleteToDoTask  that delete Task from the database if valid id is provided.
      * @param id
      */
     @CacheEvict(cacheNames = "toDoTaskList", allEntries = true)
