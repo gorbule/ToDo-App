@@ -19,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,6 +94,38 @@ class ToDoTaskServiceImplTest {
         when(repository.findById(any())).thenReturn(Optional.empty());
         Optional<ToDoTask> toDoTask = service.getToDoTaskById(any());
         Assertions.assertFalse(toDoTask.isPresent());
+    }
+
+    @Test
+    void getToDoTasksByStatus_Success() {
+        when(repository.findAll()).thenReturn(toDoTaskDAOList);
+        when(mapper.taskDaoToTaskModel(toDoTaskDAO)).thenReturn(toDoTask);
+        List<ToDoTask> toDoTaskListByStatus = service.getToDoTasksByStatus(Status.TO_DO);
+        assertEquals(2, toDoTaskListByStatus.size());
+        verify(repository, times(1)).findAll();
+    }
+
+    @Test
+    void getToDoTasksByStatus_Invalid_EmptyList() {
+        when(repository.findAll()).thenReturn(Collections.emptyList());
+        assertTrue(service.getToDoTasksByStatus(Status.IN_PROGRESS).isEmpty());
+        verify(repository, times(1)).findAll();
+    }
+
+    @Test
+    void getToDoTasksByPriority_Success() {
+        when(repository.findAll()).thenReturn(toDoTaskDAOList);
+        when(mapper.taskDaoToTaskModel(toDoTaskDAO)).thenReturn(toDoTask);
+        List<ToDoTask> toDoTaskListByPriority = service.getToDoTasksByPriority(TaskPriority.URGENT);
+        assertEquals(2, toDoTaskListByPriority.size());
+        verify(repository, times(1)).findAll();
+    }
+
+    @Test
+    void getToDoTasksByPriority_Invalid_EmptyList() {
+        when(repository.findAll()).thenReturn(Collections.emptyList());
+        assertTrue(service.getToDoTasksByPriority(TaskPriority.LOW).isEmpty());
+        verify(repository, times(1)).findAll();
     }
 
     @Test

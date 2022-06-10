@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,6 +125,62 @@ class ToDoControllerTest {
                         .andExpect(status().isNotFound());
 
         verify(service, times(1)).getToDoTaskById(3L);
+    }
+
+    @Test
+    void getToDoTasksByStatus_Success() throws Exception {
+        when(service.getToDoTasksByStatus(Status.IN_PROGRESS)).thenReturn(toDoTaskList);
+
+        ResultActions mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .get(baseUrl + "filteredList/v1/" + Status.valueOf("IN_PROGRESS")))
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].taskDescription").value("ToDo Task Test 2"))
+                        .andExpect(status().isOk());
+
+        verify(service, times(1)).getToDoTasksByStatus(Status.IN_PROGRESS);
+    }
+
+    @Test
+    void getToDoTasksByStatus_Invalid_EmptyList() throws Exception {
+        when(service.getToDoTasksByStatus(Status.DONE)).thenReturn(Collections.emptyList());
+
+        ResultActions mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .get(baseUrl + "filteredList/v1/" + Status.valueOf("DONE"))
+                        .content(asJsonString(Collections.emptyList()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound());
+
+        verify(service, times(1)).getToDoTasksByStatus(Status.DONE);
+    }
+
+    @Test
+    void getToDoTasksByPriority_Success() throws Exception {
+        when(service.getToDoTasksByPriority(TaskPriority.LOW)).thenReturn(toDoTaskList);
+
+        ResultActions mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .get(baseUrl + "filteredList/v2/" + TaskPriority.valueOf("LOW")))
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].taskDescription").value("ToDo Task Test 2"))
+                        .andExpect(status().isOk());
+
+        verify(service, times(1)).getToDoTasksByPriority(TaskPriority.LOW);
+    }
+
+    @Test
+    void getToDoTasksByPriority_Invalid_EmptyList() throws Exception {
+        when(service.getToDoTasksByPriority(TaskPriority.URGENT)).thenReturn(Collections.emptyList());
+
+        ResultActions mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .get(baseUrl + "filteredList/v2/" + TaskPriority.valueOf("URGENT"))
+                        .content(asJsonString(Collections.emptyList()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound());
+
+        verify(service, times(1)).getToDoTasksByPriority(TaskPriority.URGENT);
     }
 
     @Test

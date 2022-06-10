@@ -58,7 +58,8 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
                 .stream()
                 .filter(t -> t.getStatus().equals(status))
                 .collect(Collectors.toList());
-        log.info("ToDo Tasks with status {} : {}. List size: {}.", status, listWithTasksByStatus, listWithTasksByStatus.size());
+        log.info("ToDo Tasks with status {} : {}. List size: {}.",
+                status, listWithTasksByStatus, listWithTasksByStatus.size());
         return listWithTasksByStatus;
     }
     /**
@@ -71,7 +72,8 @@ public class ToDoTaskServiceImpl implements ToDoTaskService {
                 .stream()
                 .filter(t -> t.getTaskPriority().equals(taskPriority))
                 .collect(Collectors.toList());
-        log.info("ToDo Tasks with priority level {} : {}. List size: {}.", taskPriority, listWithTasksByPriority, listWithTasksByPriority.size());
+        log.info("ToDo Tasks with priority level {} : {}. List size: {}.",
+                taskPriority, listWithTasksByPriority, listWithTasksByPriority.size());
         return listWithTasksByPriority;
     }
 
