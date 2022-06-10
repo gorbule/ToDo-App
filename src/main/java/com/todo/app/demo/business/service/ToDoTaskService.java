@@ -7,7 +7,6 @@ import com.todo.app.demo.model.ToDoTask;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface ToDoTaskService {
 
     Optional<ToDoTask> getToDoTaskById(Long id);
@@ -23,5 +22,4 @@ public interface ToDoTaskService {
     ToDoTask updateToDoTask(ToDoTask updatedToDoTask);
 
     void deleteToDoTask(Long id);
-
 }
