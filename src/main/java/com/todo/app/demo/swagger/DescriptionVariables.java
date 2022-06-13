@@ -6,7 +6,7 @@ package com.todo.app.demo.swagger;
 public class DescriptionVariables {
 
     // Key strings for Swagger tags
-    public static final String TODO_APP_CONTROLLER = "ToDo App Controller";
+    public static final String TODO_APP_TASK_CONTROLLER = "ToDo App Controller";
 
     //Fey string for used fields
     public static final String NON_NULL_MAX_LONG = "Required non-null value. Starting from 1 to Long.MAX_VALUE";

@@ -34,7 +34,7 @@ public class SwaggerConfig {
 
     private Docket appendTags(Docket docket) {
         return docket.tags(
-                new Tag(DescriptionVariables.TODO_APP_CONTROLLER,
+                new Tag(DescriptionVariables.TODO_APP_TASK_CONTROLLER,
                         "Used to operate with data - ToDo Tasks from the H2 Data Base"));
     }
 

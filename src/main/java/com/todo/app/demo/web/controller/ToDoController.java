@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.todo.app.demo.swagger.DescriptionVariables.MAX_LONG_RANGE;
-import static com.todo.app.demo.swagger.DescriptionVariables.TODO_APP_CONTROLLER;
+import static com.todo.app.demo.swagger.DescriptionVariables.TODO_APP_TASK_CONTROLLER;
 
-@Api(tags = {TODO_APP_CONTROLLER})
+@Api(tags = {TODO_APP_TASK_CONTROLLER})
 @Log4j2
 @RequiredArgsConstructor
 @RestController
@@ -209,9 +209,9 @@ public class ToDoController {
                     "Check Input. Maybe missed required parameters or parameters are not valid.", id);
             return ResponseEntity.notFound().build();
         }
-        service.updateToDoTask(toDoTask);
         kieSession.insert(toDoTask);
         kieSession.fireAllRules();
+        service.updateToDoTask(toDoTask);
         log.debug("ToDo Task with id {} is updated: {}", id, toDoTask);
         return new ResponseEntity<>(toDoTask, HttpStatus.CREATED);
     }
