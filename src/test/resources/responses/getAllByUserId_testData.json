@@ -1,0 +1,14 @@
+[
+  {
+    "brandId": "19283700-00001",
+    "rating": "LIKE"
+  },
+  {
+    "brandId": "22-009",
+    "rating": "NEUTRAL"
+  },
+  {
+    "brandId": "string",
+    "rating": "DISLIKE"
+  }
+]
