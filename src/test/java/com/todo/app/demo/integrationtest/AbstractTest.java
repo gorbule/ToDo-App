@@ -60,12 +60,4 @@ public abstract class AbstractTest {
         return "";
     }
 
-//    protected void validateResponseWithSwagger(final String urlCalled, final String urlResponse) throws Exception {
-//        ObjectMapper mapper = new ObjectMapper();
-//        final Map swagger = SwaggerUtil.getSwagger(Paths.get("src/main/java/com/channel4/affinity/config/SwaggerConfig.java"));
-//        final JsonSchema jsonSchema = SwaggerUtil.getJsonSchema(swagger, "['" + urlCalled + "']");
-//        final ProcessingReport report = SwaggerUtil.validate(mapper.readValue(urlResponse, Map.class), jsonSchema);
-//        assertTrue(report.isSuccess(), "Swagger validation fails with " + report);
-//    }
-
 }

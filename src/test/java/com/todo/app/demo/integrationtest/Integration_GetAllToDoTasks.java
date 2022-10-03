@@ -1,6 +1,5 @@
 package com.todo.app.demo.integrationtest;
 
-import org.apache.commons.math3.analysis.function.Abs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +25,6 @@ public class Integration_GetAllToDoTasks extends AbstractTest {
             ResponseEntity responseAffinity = restTemplate.getForEntity("http://localhost:" + this.localPort + "/todoapp/getALlbyId/" + uuid, String.class);
 
             String responseAffinity_String = responseAffinity.getBody().toString();
-//            validateResponseWithSwagger("/affinity/{uuid}", responseAffinity_String);
 
             assertEquals(HttpStatus.OK.value(), responseAffinity.getStatusCodeValue(), "The response should be processed with status code 200.");
             assertFalse(responseAffinity_String.isEmpty(), "The response should be processed with status code 200.");
